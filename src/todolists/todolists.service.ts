@@ -1,6 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
-import { CreateTodoDto, ResponseTodoDto, UpdateTodoDto } from './dto/todolists.dto';
+import {
+  CreateTodoDto,
+  ResponseTodoDto,
+  UpdateTodoDto,
+} from './dto/todolists.dto';
 
 @Injectable()
 export class TodolistsService {
@@ -40,6 +44,9 @@ export class TodolistsService {
         tasks: true,
       },
     });
+    if (!todo) {
+      throw new NotFoundException(`TodoList with ID ${id} not found`);
+    }
     return this.toTodoResponseDto(todo);
   }
 

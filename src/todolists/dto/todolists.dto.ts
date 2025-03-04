@@ -1,6 +1,6 @@
 import { IsArray, IsString, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
-import { TaskDto } from '../tasks/tasks.dto';
+import { CreateTaskDto } from '../tasks/tasks.dto';
 import { PartialType } from '@nestjs/mapped-types';
 
 export class CreateTodoDto {
@@ -9,8 +9,8 @@ export class CreateTodoDto {
 
   @IsArray()
   @ValidateNested({ each: true })
-  @Type(() => TaskDto)
-  tasks: TaskDto[];
+  @Type(() => CreateTaskDto)
+  tasks: CreateTaskDto[];
 }
 
 export class UpdateTodoDto extends PartialType(CreateTodoDto) {}
@@ -18,5 +18,5 @@ export class UpdateTodoDto extends PartialType(CreateTodoDto) {}
 export class ResponseTodoDto {
   id: number;
   title: string;
-  tasks: TaskDto[];
+  tasks: CreateTaskDto[];
 }
