@@ -9,13 +9,16 @@ import {
 } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { CreateTaskDto, TaskResponseDto, UpdateTaskDto } from './tasks.dto';
+import { ApiTasks } from '../swagger/tasks.swagger';
 
 // используем вложенный маршрут
 @Controller('todo-list/:todoListId/tasks')
+@ApiTasks.tag()
 export class TasksController {
   constructor(private readonly tasksService: TasksService) {}
 
   @Post()
+  @ApiTasks.create()
   async create(
     @Param('todoListId') todoListId: string,
     @Body() createTaskDto: CreateTaskDto,
@@ -24,6 +27,7 @@ export class TasksController {
   }
 
   @Get()
+  @ApiTasks.findAll()
   async findAll(
     @Param('todoListId') todoListId: string,
   ): Promise<TaskResponseDto[]> {
@@ -31,6 +35,7 @@ export class TasksController {
   }
 
   @Get(':id')
+  @ApiTasks.findOne()
   async findOne(
     @Param('todoListId') todoListId: string,
     @Param('id') id: string,
@@ -39,6 +44,7 @@ export class TasksController {
   }
 
   @Patch(':id')
+  @ApiTasks.update()
   async update(
     @Param('todoListId') todoListId: string,
     @Param('id') id: string,
@@ -48,6 +54,7 @@ export class TasksController {
   }
 
   @Delete(':id')
+  @ApiTasks.delete()
   async remove(
     @Param('todoListId') todoListId: string,
     @Param('id') id: string,
