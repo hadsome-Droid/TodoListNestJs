@@ -37,7 +37,7 @@ export class TodolistsService {
     return todos.map(this.toTodoResponseDto);
   }
 
-  async getTodoById(id: number): Promise<ResponseTodoDto> {
+  async getTodoById(id: string): Promise<ResponseTodoDto> {
     const todo = await this.prisma.todo.findUnique({
       where: { id },
       include: {
@@ -51,7 +51,7 @@ export class TodolistsService {
   }
 
   async updateTodo(
-    id: number,
+    id: string,
     updateTodoDto: UpdateTodoDto,
   ): Promise<ResponseTodoDto> {
     const { title, tasks } = updateTodoDto;
@@ -70,7 +70,7 @@ export class TodolistsService {
     return this.toTodoResponseDto(todo);
   }
 
-  async deleteTodo(id: number): Promise<void> {
+  async deleteTodo(id: string): Promise<void> {
     await this.prisma.todo.delete({
       where: { id },
     });

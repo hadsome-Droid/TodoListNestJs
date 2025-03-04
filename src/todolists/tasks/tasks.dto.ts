@@ -10,14 +10,14 @@ export class CreateTaskDto {
   status: StatusTask;
 
   @IsNumber()
-  todoId: number;
+  todoId: string;
 }
 
 export class UpdateTaskDto extends PartialType(CreateTaskDto) {}
 
 export class TaskResponseDto {
-  id: number;
+  id: string;
   title: string;
   status: string;
-  todoId: number;
+  todoId: string;
 }

@@ -4,7 +4,6 @@ import {
   Delete,
   Get,
   Param,
-  ParseIntPipe,
   Patch,
   Post,
 } from '@nestjs/common';
@@ -25,9 +24,7 @@ export class TodolistsController {
   }
 
   @Get(':id')
-  async findOne(
-    @Param('id', ParseIntPipe) id: number,
-  ): Promise<ResponseTodoDto> {
+  async findOne(@Param('id') id: string): Promise<ResponseTodoDto> {
     return this.todolistsService.getTodoById(id);
   }
 
@@ -38,14 +35,14 @@ export class TodolistsController {
 
   @Patch(':id')
   async update(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id') id: string,
     @Body() updateTodoDto: UpdateTodoDto,
   ): Promise<ResponseTodoDto> {
     return this.todolistsService.updateTodo(id, updateTodoDto);
   }
 
   @Delete(':id')
-  async remove(@Param('id', ParseIntPipe) id: number): Promise<void> {
+  async remove(@Param('id') id: string): Promise<void> {
     return this.todolistsService.deleteTodo(id);
   }
 }

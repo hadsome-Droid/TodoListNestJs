@@ -4,7 +4,6 @@ import {
   Delete,
   Get,
   Param,
-  ParseIntPipe,
   Patch,
   Post,
 } from '@nestjs/common';
@@ -18,7 +17,7 @@ export class TasksController {
 
   @Post()
   async create(
-    @Param('todoListId', ParseIntPipe) todoListId: number,
+    @Param('todoListId') todoListId: string,
     @Body() createTaskDto: CreateTaskDto,
   ): Promise<TaskResponseDto> {
     return this.tasksService.create(todoListId, createTaskDto);
@@ -26,23 +25,23 @@ export class TasksController {
 
   @Get()
   async findAll(
-    @Param('todoListId', ParseIntPipe) todoListId: number,
+    @Param('todoListId') todoListId: string,
   ): Promise<TaskResponseDto[]> {
     return this.tasksService.findAllByTodoListId(todoListId);
   }
 
   @Get(':id')
   async findOne(
-    @Param('todoListId', ParseIntPipe) todoListId: number,
-    @Param('id', ParseIntPipe) id: number,
+    @Param('todoListId') todoListId: string,
+    @Param('id') id: string,
   ): Promise<TaskResponseDto> {
     return this.tasksService.findOne(todoListId, id);
   }
 
   @Patch(':id')
   async update(
-    @Param('todoListId', ParseIntPipe) todoListId: number,
-    @Param('id', ParseIntPipe) id: number,
+    @Param('todoListId') todoListId: string,
+    @Param('id') id: string,
     @Body() updateTaskDto: UpdateTaskDto,
   ): Promise<TaskResponseDto> {
     return this.tasksService.update(todoListId, id, updateTaskDto);
@@ -50,8 +49,8 @@ export class TasksController {
 
   @Delete(':id')
   async remove(
-    @Param('todoListId', ParseIntPipe) todoListId: number,
-    @Param('id', ParseIntPipe) id: number,
+    @Param('todoListId') todoListId: string,
+    @Param('id') id: string,
   ): Promise<void> {
     return this.tasksService.remove(todoListId, id);
   }

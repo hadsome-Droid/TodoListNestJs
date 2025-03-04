@@ -16,7 +16,7 @@ export class CreateTodoDto {
 export class UpdateTodoDto extends PartialType(CreateTodoDto) {}
 
 export class ResponseTodoDto {
-  id: number;
+  id: string;
   title: string;
   tasks: CreateTaskDto[];
 }

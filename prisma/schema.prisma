@@ -14,7 +14,7 @@ datasource db {
 }
 
 model Todo {
-  id    Int    @id @default(autoincrement())
+  id    String @id @default(uuid())
   title String
   tasks Task[] // Связь один-ко-многим с Task
 
@@ -23,10 +23,10 @@ model Todo {
 }
 
 model Task {
-  id     Int    @id @default(autoincrement())
+  id     String @id @default(uuid())
   title  String
   status String
-  todoId Int // Внешний ключ для связи с Todo
+  todoId String // Внешний ключ для связи с Todo
   todo   Todo   @relation(fields: [todoId], references: [id]) // Связь с Todo
 
   createAt DateTime @default(now())

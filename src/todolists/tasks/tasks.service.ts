@@ -3,10 +3,10 @@ import { PrismaService } from '../../prisma.service';
 import { CreateTaskDto, TaskResponseDto, UpdateTaskDto } from './tasks.dto';
 
 type Task = {
-  id: number;
+  id: string;
   title: string;
   status: string;
-  todoId: number;
+  todoId: string;
 };
 
 @Injectable()
@@ -15,7 +15,7 @@ export class TasksService {
 
   // создать таску
   async create(
-    todoListId: number,
+    todoListId: string,
     createTaskDto: CreateTaskDto,
   ): Promise<TaskResponseDto> {
     const task = await this.prisma.task.create({
@@ -28,7 +28,7 @@ export class TasksService {
   }
 
   // все таски
-  async findAllByTodoListId(todoListId: number): Promise<TaskResponseDto[]> {
+  async findAllByTodoListId(todoListId: string): Promise<TaskResponseDto[]> {
     const tasks = await this.prisma.task.findMany({
       where: { todoId: todoListId },
     });
@@ -36,7 +36,7 @@ export class TasksService {
   }
 
   // одна таска
-  async findOne(todoListId: number, id: number): Promise<TaskResponseDto> {
+  async findOne(todoListId: string, id: string): Promise<TaskResponseDto> {
     const task = await this.prisma.task.findUnique({
       where: { id, todoId: todoListId },
     });
@@ -50,8 +50,8 @@ export class TasksService {
 
   // обновить таску
   async update(
-    todoListId: number,
-    id: number,
+    todoListId: string,
+    id: string,
     updateTaskDto: UpdateTaskDto,
   ): Promise<TaskResponseDto> {
     const task = await this.prisma.task.update({
@@ -62,7 +62,7 @@ export class TasksService {
   }
 
   // удалить таску
-  async remove(todoListId: number, id: number): Promise<void> {
+  async remove(todoListId: string, id: string): Promise<void> {
     await this.prisma.task.delete({
       where: { id, todoId: todoListId },
     });
