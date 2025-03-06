@@ -11,12 +11,14 @@ export class TodolistsService {
   constructor(private readonly prisma: PrismaService) {}
 
   async createTodoWithTasks(
+    userId: string,
     createTodoDto: CreateTodoDto,
   ): Promise<ResponseTodoDto> {
     const { title, tasks } = createTodoDto;
     const todo = await this.prisma.todo.create({
       data: {
         title,
+        userId,
         tasks: {
           create: tasks,
         },
@@ -28,8 +30,9 @@ export class TodolistsService {
     return this.toTodoResponseDto(todo);
   }
 
-  async getTodos(): Promise<ResponseTodoDto[]> {
+  async getTodosUser(userId: string): Promise<ResponseTodoDto[]> {
     const todos = await this.prisma.todo.findMany({
+      where: { userId },
       include: {
         tasks: true,
       },
@@ -37,9 +40,9 @@ export class TodolistsService {
     return todos.map(this.toTodoResponseDto);
   }
 
-  async getTodoById(id: string): Promise<ResponseTodoDto> {
+  async getTodoById(userId: string, id: string): Promise<ResponseTodoDto> {
     const todo = await this.prisma.todo.findUnique({
-      where: { id },
+      where: { id, userId },
       include: {
         tasks: true,
       },
@@ -51,9 +54,16 @@ export class TodolistsService {
   }
 
   async updateTodo(
+    userId: string,
     id: string,
     updateTodoDto: UpdateTodoDto,
   ): Promise<ResponseTodoDto> {
+    const todoList = await this.prisma.todo.findUnique({
+      where: { id, userId },
+    });
+    if (!todoList) {
+      throw new NotFoundException(`TodoList with ID ${id} not found`);
+    }
     const { title, tasks } = updateTodoDto;
     const todo = await this.prisma.todo.update({
       where: { id },
@@ -70,7 +80,14 @@ export class TodolistsService {
     return this.toTodoResponseDto(todo);
   }
 
-  async deleteTodo(id: string): Promise<void> {
+  async deleteTodo(userId: string, id: string): Promise<void> {
+    const todoList = await this.prisma.todo.findUnique({
+      where: { id, userId },
+    });
+    if (!todoList) {
+      throw new NotFoundException(`TodoList with ID ${id} not found`);
+    }
+
     await this.prisma.todo.delete({
       where: { id },
     });
