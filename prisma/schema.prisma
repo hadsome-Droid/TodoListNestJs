@@ -13,6 +13,14 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id       String @id @default(uuid())
+  name     String
+  email    String @unique
+  password String
+  todos    Todo[]
+}
+
 model Todo {
   id    String @id @default(uuid())
   title String
@@ -20,6 +28,8 @@ model Todo {
 
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
+  User     User?    @relation(fields: [userId], references: [id])
+  userId   String?
 }
 
 model Task {
