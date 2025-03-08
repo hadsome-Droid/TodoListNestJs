@@ -12,11 +12,21 @@ export class AuthService {
 
   async validateUser(email: string, password: string) {
     const user = await this.usersService.findByEmail(email);
-    if (user && (await bcrypt.compare(password, user.password))) {
-      const { password, ...result } = user;
-      return result;
+
+    // Проверяем, что пользователь существует и пароль не равен null/undefined
+    if (!user || !user.password) {
+      throw new UnauthorizedException('Invalid email or password');
     }
-    throw new UnauthorizedException('Invalid email or password');
+
+    // Сравниваем пароли
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      throw new UnauthorizedException('Invalid email or password');
+    }
+
+    // Возвращаем пользователя без пароля
+    const { password: _, ...result } = user;
+    return result;
   }
 
   async login(user: any) {
