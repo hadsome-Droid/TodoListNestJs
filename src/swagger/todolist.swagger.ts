@@ -5,11 +5,11 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { CreateTodoDto } from '../dto/todolists.dto';
+import { CreateTodoDto } from '../todolists/dto/todolists.dto';
 import { applyDecorators } from '@nestjs/common';
 
 export const ApiTodoList = {
-  tag: () => ApiTags('todos'),
+  tag: () => ApiTags('Todos'),
   findAll: () =>
     applyDecorators(
       ApiOperation({ summary: 'Get all Todo List' }),

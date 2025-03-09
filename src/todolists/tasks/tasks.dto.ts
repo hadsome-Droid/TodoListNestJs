@@ -5,7 +5,7 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateTaskDto {
   @IsString()
-  @ ApiProperty({
+  @ApiProperty({
     example: 'By a new Car',
     description: 'The title of the task',
     required: true,
@@ -17,7 +17,7 @@ export class CreateTaskDto {
     example: 'Active',
     description: 'The status of the task',
     enum: StatusTask,
-    required: true
+    required: true,
   })
   status: StatusTask;
 

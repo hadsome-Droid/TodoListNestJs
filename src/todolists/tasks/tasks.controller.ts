@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { CreateTaskDto, TaskResponseDto, UpdateTaskDto } from './tasks.dto';
-import { ApiTasks } from '../swagger/tasks.swagger';
+import { ApiTasks } from '../../swagger/tasks.swagger';
 
 // используем вложенный маршрут
 @Controller('todo-list/:todoListId/tasks')

@@ -16,7 +16,7 @@ import {
   ResponseTodoDto,
   UpdateTodoDto,
 } from './dto/todolists.dto';
-import { ApiTodoList } from './swagger/todolist.swagger';
+import { ApiTodoList } from '../swagger/todolist.swagger';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @Controller('users/me/todo-list')

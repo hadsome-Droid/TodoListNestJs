@@ -7,6 +7,7 @@ import { JWT_EXPIRES_IN, JWT_SECRET_KEY } from './constants';
 import { JwtStrategy } from './jwt.strategy';
 import { PassportModule } from '@nestjs/passport';
 import { LocalStrategy } from './local.strategy';
+import { PrismaService } from '../prisma.service';
 
 @Module({
   imports: [
@@ -18,6 +19,6 @@ import { LocalStrategy } from './local.strategy';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy, LocalStrategy],
+  providers: [AuthService, JwtStrategy, LocalStrategy, PrismaService],
 })
 export class AuthModule {}
